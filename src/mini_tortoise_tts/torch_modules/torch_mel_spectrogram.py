@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchaudio.transforms import MelSpectrogram
 
-from config import DEFAULT_MEL_NORM_FILE
+from mini_tortoise_tts.config import DEFAULT_MEL_NORM_FILE
 
 
 class TorchMelSpectrogram(nn.Module):

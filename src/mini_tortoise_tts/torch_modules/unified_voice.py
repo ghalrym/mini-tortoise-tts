@@ -4,9 +4,9 @@ from transformers import GPT2Config, LogitsProcessorList
 
 from gpt.gpt2_model_null_embeddings import build_hf_gpt_transformer
 from gpt.gpt_2_inference_model import GPT2InferenceModel
-from torch_modules.mel_encoder import MelEncoder
+from mini_tortoise_tts.torch_modules.mel_encoder import MelEncoder
 from transformers.typical_logits_warper import TypicalLogitsWarper
-from models.autoregressive import ConditioningEncoder  # TODO: Convert
+from mini_tortoise_tts.torch_modules.conditioning_encoder import ConditioningEncoder
 
 
 class UnifiedVoice(nn.Module):

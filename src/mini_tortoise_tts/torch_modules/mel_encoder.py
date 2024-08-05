@@ -1,6 +1,6 @@
 from torch import nn
 
-from torch_modules.res_block import ResBlock
+from mini_tortoise_tts.torch_modules.res_block import ResBlock
 
 
 class MelEncoder(nn.Module):

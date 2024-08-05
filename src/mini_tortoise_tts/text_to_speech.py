@@ -9,11 +9,11 @@ from torch import Tensor
 from torch.nn import functional
 from torch.types import Device
 
-from config import MODELS_DIR, DEFAULT_TOKENIZE_FILE, MODEL_PRESETS
-from external import get_model_path
-from load_voices import Voice
-from tokenizers import VoiceBpeTokenizer
-from torch_modules import TorchMelSpectrogram, UnifiedVoice, HifiganGenerator
+from mini_tortoise_tts.config import MODELS_DIR, DEFAULT_TOKENIZE_FILE, MODEL_PRESETS
+from mini_tortoise_tts.external import get_model_path
+from mini_tortoise_tts.load_voices import Voice
+from mini_tortoise_tts.tokenizers import VoiceBpeTokenizer
+from mini_tortoise_tts.torch_modules import TorchMelSpectrogram, UnifiedVoice, HifiganGenerator
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 from torch import nn
 
-from torch_modules.attention_block import AttentionBlock
+from mini_tortoise_tts.torch_modules.attention_block import AttentionBlock
 
 
 class ConditioningEncoder(nn.Module):

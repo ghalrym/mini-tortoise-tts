@@ -1,11 +1,11 @@
 import os
 from typing import Final
 
-_TEXT_TO_SPEECH_DIR: Final[str] = os.path.dirname(os.path.realpath(__file__))
-
+_TEXT_TO_SPEECH_DIR: Final[str] = os.environ.get("MINI_TORTOISE_TTS", os.path.dirname(os.path.realpath(__file__)))
 DEFAULT_MEL_NORM_FILE: Final[str] = os.path.join(_TEXT_TO_SPEECH_DIR, ".data/build_ins/mel_norms.pth")
 DEFAULT_TOKENIZE_FILE: Final[str] = os.path.join(_TEXT_TO_SPEECH_DIR, ".data/build_ins/tokenizer.json")
 MODELS_DIR: Final[str] = os.path.join(_TEXT_TO_SPEECH_DIR, ".data/models/")
+VOICE_DIR: Final[str] = os.path.join(_TEXT_TO_SPEECH_DIR, ".data/voices/")
 
 MODELS: Final[dict[str, str]] = {
     "autoregressive.pth": "https://huggingface.co/Manmay/tortoise-tts/resolve/main/autoregressive.pth",

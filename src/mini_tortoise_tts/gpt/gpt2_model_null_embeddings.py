@@ -2,7 +2,7 @@ import torch
 from torch import Tensor
 from transformers import GPT2Model, GPT2Config
 
-from models.autoregressive import LearnedPositionEmbeddings
+from mini_tortoise_tts.gpt.learned_position_embeddings import LearnedPositionEmbeddings
 
 
 HfGptTransformer = tuple[GPT2Model, LearnedPositionEmbeddings, LearnedPositionEmbeddings]

@@ -1,7 +1,7 @@
 from torch import nn
 
-from torch_modules.qkv_attention_legacy import QKVAttentionLegacy
-from torch_modules.relative_position_bias import RelativePositionBias
+from mini_tortoise_tts.torch_modules.qkv_attention_legacy import QKVAttentionLegacy
+from mini_tortoise_tts.torch_modules.relative_position_bias import RelativePositionBias
 
 
 class GroupNorm32(nn.GroupNorm):

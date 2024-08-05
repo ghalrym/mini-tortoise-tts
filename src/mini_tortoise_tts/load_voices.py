@@ -7,6 +7,8 @@ import torchaudio
 from scipy.io.wavfile import read
 from torch import Tensor
 
+from mini_tortoise_tts.config import VOICE_DIR
+
 
 class MissingVoiceException(Exception):
     def __init__(self, voice: str, voice_dir: str):
@@ -22,9 +24,9 @@ class UnsupportedAudioFormat(Exception):
 def _load_wav_to_torch(full_path):
     sampling_rate, data = read(full_path)
     if data.dtype == np.int32:
-        norm_fix = 2**31
+        norm_fix = 2 ** 31
     elif data.dtype == np.int16:
-        norm_fix = 2**15
+        norm_fix = 2 ** 15
     elif data.dtype == np.float16 or data.dtype == np.float32:
         norm_fix = 1.0
     else:
@@ -115,3 +117,12 @@ class Voices:
         new_voices = Voices(None)
         new_voices.voices = other.voices | self.voices
         return new_voices
+
+
+_ALL_VOICES = Voices(VOICE_DIR)
+
+
+def safe_load_voice(voice: str) -> Voice:
+    voice_obj = _ALL_VOICES[voice]
+    voice_obj.validate_voice()
+    return voice_obj

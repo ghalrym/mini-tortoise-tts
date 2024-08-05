@@ -1,6 +1,6 @@
 from huggingface_hub import hf_hub_download
 
-from config import MODELS, MODELS_DIR
+from mini_tortoise_tts.config import MODELS, MODELS_DIR
 
 
 class ModelDoesNotExist(Exception):
