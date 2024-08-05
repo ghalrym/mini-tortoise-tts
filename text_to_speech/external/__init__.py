@@ -1,0 +1,1 @@
+from external.hugging_face import get_model_path
