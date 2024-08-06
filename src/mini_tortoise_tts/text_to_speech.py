@@ -12,7 +12,7 @@ from torch.types import Device
 from mini_tortoise_tts.config import Config
 from mini_tortoise_tts.external import get_model_path
 from mini_tortoise_tts.load_voices import Voice
-from mini_tortoise_tts.tokenizers import VoiceBpeTokenizer
+from mini_tortoise_tts.torch_tokenizers import VoiceBpeTokenizer
 from mini_tortoise_tts.torch_modules import TorchMelSpectrogram, UnifiedVoice, HifiganGenerator
 
 logger = logging.getLogger(__name__)
