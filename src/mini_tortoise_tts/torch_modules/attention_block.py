@@ -42,7 +42,7 @@ class AttentionBlock(nn.Module):
         super().__init__()
         self.channels = channels
         self.do_checkpoint = do_checkpoint
-        self.num_heads = num_heads if (num_head_channels == -1) else self.num_heads = channels // num_head_channels
+        self.num_heads = num_heads if (num_head_channels == -1) else channels // num_head_channels
         self.norm = normalization(channels)
         self.qkv = nn.Conv1d(channels, channels * 3, 1)
         # split heads before split qkv

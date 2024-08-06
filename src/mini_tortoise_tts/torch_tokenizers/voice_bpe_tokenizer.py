@@ -46,6 +46,7 @@ _decimal_number_re = re.compile(r"([0-9]+\.[0-9]+)")
 _pounds_re = re.compile(r"£([0-9\,]*[0-9]+)")
 _dollars_re = re.compile(r"\$([0-9\.\,]*[0-9]+)")
 _ordinal_re = re.compile(r"[0-9]+(st|nd|rd|th)")
+_space_number_re = re.compile(r"([^0-9])([0-9])")
 _number_re = re.compile(r"[0-9]+")
 
 
@@ -98,23 +99,19 @@ def _expand_number(m):
 
 
 def normalize_numbers(text):
-    text = re.sub(_comma_number_re, _remove_commas, text)
-    text = re.sub(_pounds_re, r"\1 pounds", text)
-    text = re.sub(_dollars_re, _expand_dollars, text)
-    text = re.sub(_decimal_number_re, _expand_decimal_point, text)
-    text = re.sub(_ordinal_re, _expand_ordinal, text)
-    text = re.sub(_number_re, _expand_number, text)
-    return text
-
-
-def collapse_whitespace(text):
-    return re.sub(_whitespace_re, " ", text)
+    text = _comma_number_re.sub(_remove_commas, text)
+    text = _pounds_re.sub(r"\1 pounds", text)
+    text = _dollars_re.sub(_expand_dollars, text)
+    text = _decimal_number_re.sub(_expand_decimal_point, text)
+    text = _ordinal_re.sub(_expand_ordinal, text)
+    text = _space_number_re.sub(r"\1 \2", text)
+    return _number_re.sub(_expand_number, text)
 
 
 def basic_cleaners(text):
     """Basic pipeline that lowercases and collapses whitespace without transliteration."""
     text = text.lower()
-    text = collapse_whitespace(text)
+    text = _whitespace_re.sub(" ", text)
     return text
 
 
@@ -124,7 +121,7 @@ def english_cleaners(text):
     text = text.lower()
     text = normalize_numbers(text)
     text = expand_abbreviations(text)
-    text = collapse_whitespace(text)
+    text = _whitespace_re.sub(" ", text)
     text = text.replace('"', "")
     return text
 

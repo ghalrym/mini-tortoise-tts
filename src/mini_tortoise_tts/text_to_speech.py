@@ -112,7 +112,7 @@ class TextToSpeech:
         self,
         voice: Voice,
         autoregressive_batch_size=None,
-        models_dir: str = Config.default_models_directory(),
+        models_dir: str = Config.default_models_directory,
         kv_cache: bool = False,
         use_deepspeed: bool = False,
         half: bool = False,

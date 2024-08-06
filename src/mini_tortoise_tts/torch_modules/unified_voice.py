@@ -1,12 +1,11 @@
 import torch
 from torch import nn
-from transformers import GPT2Config, LogitsProcessorList
+from transformers import GPT2Config, LogitsProcessorList, TypicalLogitsWarper
 
 from mini_tortoise_tts.gpt.gpt2_model_null_embeddings import build_hf_gpt_transformer
 from mini_tortoise_tts.gpt.gpt_2_inference_model import GPT2InferenceModel
 from mini_tortoise_tts.torch_modules.conditioning_encoder import ConditioningEncoder
 from mini_tortoise_tts.torch_modules.mel_encoder import MelEncoder
-from transformers.typical_logits_warper import TypicalLogitsWarper
 
 
 class UnifiedVoice(nn.Module):
