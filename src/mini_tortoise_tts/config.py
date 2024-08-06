@@ -17,19 +17,19 @@ class Config:
 
     @classproperty
     def default_mel_norm_file(cls) -> str:
-        return os.path.join(cls.text_to_speech_dir, ".data/build_ins/mel_norms.pth")
+        return os.path.join(cls.text_to_speech_dir, "build_ins/mel_norms.pth")
 
     @classproperty
     def default_tokenizer_file(cls) -> str:
-        return os.path.join(cls.text_to_speech_dir, ".data/build_ins/tokenizer.json")
+        return os.path.join(cls.text_to_speech_dir, "build_ins/tokenizer.json")
 
     @classproperty
     def default_models_directory(cls) -> str:
-        return os.path.join(cls.text_to_speech_dir, ".data/models/")
+        return os.path.join(cls.text_to_speech_dir, "models/")
 
     @classproperty
     def get_voice_dir(cls) -> str:
-        return os.path.join(cls.text_to_speech_dir, ".data/voices/")
+        return os.path.join(cls.text_to_speech_dir, "voices/")
 
     @classproperty
     def get_model_presets(cls) -> dict[str, dict[str, int]]:
