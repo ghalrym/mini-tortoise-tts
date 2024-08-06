@@ -97,21 +97,18 @@ class Voice:
 
 
 class Voices:
-    __slots__ = ("voices",)
-
     ALL_VOICES: dict[str, Voice] = {}
 
-    def __init__(self):
+    def __getitem__(self, voice: str) -> Voice:
         if Voices.ALL_VOICES == {}:
             Voices.ALL_VOICES = {
                 voice_dir: Voice(voice_dir, os.path.join(Config.get_voice_dir, voice_dir))
                 for voice_dir in os.listdir(Config.get_voice_dir)
             }
 
-    def __getitem__(self, voice: str) -> Voice:
-        if voice not in self.voices:
+        if voice not in self.ALL_VOICES:
             raise MissingVoiceException(voice, Config.get_voice_dir)
-        return self.voices.get(voice, None)
+        return self.ALL_VOICES.get(voice, None)
 
 
 def safe_load_voice(voice: str) -> Voice:

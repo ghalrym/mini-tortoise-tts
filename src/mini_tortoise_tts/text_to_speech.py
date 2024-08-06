@@ -96,7 +96,6 @@ def set_seed(seed: int | None = None):
 class TextToSpeech:
     __slots__ = (
         "_voice",
-        "models_dir",
         "_preset",
         "tokenizer",
         "autoregressive_batch_size",
@@ -112,7 +111,6 @@ class TextToSpeech:
         self,
         voice: Voice,
         autoregressive_batch_size=None,
-        models_dir: str = Config.default_models_directory,
         kv_cache: bool = False,
         use_deepspeed: bool = False,
         half: bool = False,
@@ -130,20 +128,19 @@ class TextToSpeech:
             "top_p": 0.8,
             # "cond_free_k": 2.0,
             # "diffusion_temperature": 1.0,
-            "num_autoregressive_samples": 16,
-            **Config.get_model_presets().get(preset, "fast"),
+            # "num_autoregressive_samples": 16,
+            **Config.get_model_presets.get(preset, "fast"),
         }
 
         self.device = torch.device(device)
-        self.models_dir = models_dir
-        self.tokenizer = VoiceBpeTokenizer(tokenizer_vocab_file or Config.default_tokenizer_file(), tokenizer_basic)
+        self.tokenizer = VoiceBpeTokenizer(tokenizer_vocab_file or Config.default_tokenizer_file, tokenizer_basic)
         self.autoregressive_batch_size = autoregressive_batch_size or pick_best_batch_size_for_gpu(self.device)
         self.half = half
 
-        if os.path.exists(f"{models_dir}/autoregressive.ptt"):
-            self.autoregressive = torch.jit.load(f"{models_dir}/autoregressive.ptt")
+        if os.path.exists(f"{Config.default_models_directory}/autoregressive.ptt"):
+            self.autoregressive = torch.jit.load(f"{Config.default_models_directory}/autoregressive.ptt")
         else:
-            autoregressive_model_path = get_model_path("autoregressive.pth", models_dir)
+            autoregressive_model_path = get_model_path("autoregressive.pth")
             self.autoregressive = UNIFIED_VOICE.to(self.device).eval()
             self.autoregressive.load_state_dict(torch.load(autoregressive_model_path, weights_only=True), strict=False)
             self.autoregressive.post_init_gpt2_config(use_deepspeed=use_deepspeed, kv_cache=kv_cache, half=self.half)

@@ -35,19 +35,19 @@ class Config:
     def get_model_presets(cls) -> dict[str, dict[str, int]]:
         return {
             "ultra_fast": {
-                "num_autoregressive_samples": 1,
+                # "num_autoregressive_samples": 1,
                 # "diffusion_iterations": 10,
             },
             "fast": {
-                "num_autoregressive_samples": 32,
+                # "num_autoregressive_samples": 32,
                 # "diffusion_iterations": 50,
             },
             "standard": {
-                "num_autoregressive_samples": 256,
+                # "num_autoregressive_samples": 256,
                 # "diffusion_iterations": 200,
             },
             "high_quality": {
-                "num_autoregressive_samples": 256,
+                # "num_autoregressive_samples": 256,
                 # "diffusion_iterations": 400,
             },
         }
