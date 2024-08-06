@@ -24,10 +24,9 @@ functionality.
 To use MiniTortoiseTTS, simply import the library and start speaking!
 
 ```python
-from mini_tortoise_tts.load_voices import Voice
-from mini_tortoise_tts.text_to_speech import TextToSpeech
+from mini_tortoise_tts import safe_load_voice, TextToSpeech
 
-voice = Voice("mini-turtle")
+voice = safe_load_voice("mini-turtle")
 text_to_speech = TextToSpeech(voice)
 text_to_speech.tts("Hello World")
 ```
