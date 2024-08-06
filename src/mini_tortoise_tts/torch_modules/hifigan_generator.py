@@ -1,7 +1,6 @@
 import torch
 from torch import nn
-from torch.nn import Conv1d, ConvTranspose1d
-from torch.nn import functional as F
+from torch.nn import Conv1d, ConvTranspose1d, functional
 from torch.nn.utils import remove_weight_norm
 from torch.nn.utils.parametrizations import weight_norm
 
@@ -88,9 +87,9 @@ class ResBlock1(torch.nn.Module):
             x: [B, C, T]
         """
         for c1, c2 in zip(self.convs1, self.convs2):
-            xt = F.leaky_relu(x, LRELU_SLOPE)
+            xt = functional.leaky_relu(x, LRELU_SLOPE)
             xt = c1(xt)
-            xt = F.leaky_relu(xt, LRELU_SLOPE)
+            xt = functional.leaky_relu(xt, LRELU_SLOPE)
             xt = c2(xt)
             x = xt + x
         return x
@@ -146,7 +145,7 @@ class ResBlock2(torch.nn.Module):
 
     def forward(self, x):
         for c in self.convs:
-            xt = F.leaky_relu(x, LRELU_SLOPE)
+            xt = functional.leaky_relu(x, LRELU_SLOPE)
             xt = c(xt)
             x = xt + x
         return x
@@ -247,7 +246,7 @@ class HifiganGenerator(torch.nn.Module):
         if hasattr(self, "cond_layer"):
             o = o + self.cond_layer(g)
         for i in range(self.num_upsamples):
-            o = F.leaky_relu(o, LRELU_SLOPE)
+            o = functional.leaky_relu(o, LRELU_SLOPE)
             o = self.ups[i](o)
             z_sum = None
             for j in range(self.num_kernels):
@@ -256,7 +255,7 @@ class HifiganGenerator(torch.nn.Module):
                 else:
                     z_sum += self.resblocks[i * self.num_kernels + j](o)
             o = z_sum / self.num_kernels
-        o = F.leaky_relu(o)
+        o = functional.leaky_relu(o)
         o = self.conv_post(o)
         o = torch.tanh(o)
         return o

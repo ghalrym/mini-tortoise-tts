@@ -1,1 +1,1 @@
-from mini_tortoise_tts.transformers.typical_logits_warper import TypicalLogitsWarper
+from .typical_logits_warper import TypicalLogitsWarper

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchaudio.transforms import MelSpectrogram
 
-from mini_tortoise_tts.config import DEFAULT_MEL_NORM_FILE
+from mini_tortoise_tts.config import Config
 
 
 class TorchMelSpectrogram(nn.Module):
@@ -17,7 +17,8 @@ class TorchMelSpectrogram(nn.Module):
         "sampling_rate",
         "mel_stft",
     )
-    MEL_NORMS = torch.load(DEFAULT_MEL_NORM_FILE, weights_only=True)
+
+    _MEL_NORMS = None
 
     def __init__(
         self,
@@ -65,5 +66,10 @@ class TorchMelSpectrogram(nn.Module):
         mel = self.mel_stft(inp)
         mel = torch.log(torch.clamp(mel, min=1e-5))
 
-        mel_norms = self.MEL_NORMS.to(mel.device)
+        mel_norms = self.get_default_mel_norms().to(mel.device)
         return mel / mel_norms.unsqueeze(0).unsqueeze(-1)
+
+    def get_default_mel_norms(self):
+        if self._MEL_NORMS is None:
+            self._MEL_NORMS = torch.load(Config.default_mel_norm_file, weights_only=True)
+        return self._MEL_NORMS

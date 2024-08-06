@@ -7,7 +7,7 @@ import torchaudio
 from scipy.io.wavfile import read
 from torch import Tensor
 
-from mini_tortoise_tts.config import VOICE_DIR
+from mini_tortoise_tts.config import Config
 
 
 class MissingVoiceException(Exception):
@@ -99,30 +99,22 @@ class Voice:
 class Voices:
     __slots__ = ("voices",)
 
-    def __init__(self, voice_library: str | None):
-        if voice_library is None:
-            self.voices: dict[str, Voice] = dict()
-        else:
-            self.voices: dict[str, Voice] = {
-                voice_dir: Voice(voice_dir, os.path.join(voice_library, voice_dir))
-                for voice_dir in os.listdir(voice_library)
+    ALL_VOICES: dict[str, Voice] = {}
+
+    def __init__(self):
+        if Voices.ALL_VOICES == {}:
+            Voices.ALL_VOICES = {
+                voice_dir: Voice(voice_dir, os.path.join(Config.get_voice_dir, voice_dir))
+                for voice_dir in os.listdir(Config.get_voice_dir)
             }
 
     def __getitem__(self, voice: str) -> Voice:
         if voice not in self.voices:
-            raise MissingVoiceException(voice)
+            raise MissingVoiceException(voice, Config.get_voice_dir)
         return self.voices.get(voice, None)
-
-    def __add__(self, other) -> "Voices":
-        new_voices = Voices(None)
-        new_voices.voices = other.voices | self.voices
-        return new_voices
-
-
-_ALL_VOICES = Voices(VOICE_DIR)
 
 
 def safe_load_voice(voice: str) -> Voice:
-    voice_obj = _ALL_VOICES[voice]
+    voice_obj = Voices()[voice]
     voice_obj.validate_voice()
     return voice_obj

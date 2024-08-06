@@ -9,7 +9,7 @@ from torch import Tensor
 from torch.nn import functional
 from torch.types import Device
 
-from mini_tortoise_tts.config import MODELS_DIR, DEFAULT_TOKENIZE_FILE, MODEL_PRESETS
+from mini_tortoise_tts.config import Config
 from mini_tortoise_tts.external import get_model_path
 from mini_tortoise_tts.load_voices import Voice
 from mini_tortoise_tts.tokenizers import VoiceBpeTokenizer
@@ -112,12 +112,12 @@ class TextToSpeech:
         self,
         voice: Voice,
         autoregressive_batch_size=None,
-        models_dir: str = MODELS_DIR,
+        models_dir: str = Config.default_models_directory(),
         kv_cache: bool = False,
         use_deepspeed: bool = False,
         half: bool = False,
         device: str | None = "cuda" if torch.cuda.is_available() else "cpu",
-        tokenizer_vocab_file: str = DEFAULT_TOKENIZE_FILE,
+        tokenizer_vocab_file: str | None = None,
         tokenizer_basic=False,
         preset: str = "fast",
         seed: int | None = None,
@@ -131,12 +131,12 @@ class TextToSpeech:
             # "cond_free_k": 2.0,
             # "diffusion_temperature": 1.0,
             "num_autoregressive_samples": 16,
-            **MODEL_PRESETS.get(preset, "fast"),
+            **Config.get_model_presets().get(preset, "fast"),
         }
 
         self.device = torch.device(device)
         self.models_dir = models_dir
-        self.tokenizer = VoiceBpeTokenizer(tokenizer_vocab_file, tokenizer_basic)
+        self.tokenizer = VoiceBpeTokenizer(tokenizer_vocab_file or Config.default_tokenizer_file(), tokenizer_basic)
         self.autoregressive_batch_size = autoregressive_batch_size or pick_best_batch_size_for_gpu(self.device)
         self.half = half
 
