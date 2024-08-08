@@ -210,5 +210,5 @@ class TextToSpeech:
             logger.info("generating audio..")
         return self.hifi_decoder.inference(gpt_latents.to(self.device), auto_conditioning)
 
-    def generate(self, text: str) -> Tensor:
-        return self.tts(text, voice_samples=self._voice.torch_state, **self._preset)
+    def generate(self, text: str, **kwargs) -> Tensor:
+        return self.tts(text, voice_samples=self._voice.torch_state, **self._preset, **kwargs)

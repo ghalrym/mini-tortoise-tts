@@ -25,6 +25,9 @@ dependencies=[
 [project.optional-dependencies]
 testing = ["pytest"]
 
+[project.scripts]
+do-tts = "do_tts:start()"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
