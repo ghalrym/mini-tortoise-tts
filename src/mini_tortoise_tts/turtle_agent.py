@@ -10,5 +10,5 @@ class TtsTurtle(TurtleTool):
         self.tts = TextToSpeech(safe_load_voice(voice))
 
     @use_state("mini-tortoise-tts-say", ["mini_tortoise_tts_say"])
-    def say(self, mini_tortoise_tts_say: str):
+    def say(self, mini_tortoise_tts_say: str, **kwargs):
         audio = self.tts.generate(mini_tortoise_tts_say)
